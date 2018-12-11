@@ -20,7 +20,8 @@ module.exports = {
     "no-console": hasDev ? 1 : 2,
     "no-unused-vars": [hasDev ? 1 : 2, "all"],
     semi: [hasDev ? 1 : 2, "always"],
-    "import/no-cycle": 0
+    "import/no-cycle": 0,
+    "linebreak-style": ["error", "windows"]
   },
   plugins: ["react", "prettier"],
   settings: {

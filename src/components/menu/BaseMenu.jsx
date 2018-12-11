@@ -61,6 +61,12 @@ const BaseMenu = ({ collapsed }) => (
             <span>Demo</span>
           </Link>
         </Menu.Item>
+        <Menu.Item key="11">
+          <Link to="/house">
+            <Icon type="smile-o" />
+            <span>House</span>
+          </Link>
+        </Menu.Item>
       </Menu>
     </div>
   </Sider>
