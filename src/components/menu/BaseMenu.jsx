@@ -5,7 +5,7 @@ import styles from "./BaseMenu.less";
 
 // sider 有一个双次render的bug，是框架自身问题，如果有强制要求，可以考虑替换
 const { Sider } = Layout;
-const { SubMenu } = Menu;
+// const { SubMenu } = Menu;
 
 const BaseMenu = ({ collapsed }) => (
   <Sider collapsed={collapsed}>
@@ -14,7 +14,7 @@ const BaseMenu = ({ collapsed }) => (
         <div className={styles.img}>{/* ... */}</div>
       </div>
       <Menu defaultSelectedKeys={["1"]} mode="inline" theme="dark">
-        <Menu.Item key="1">
+        {/* <Menu.Item key="1">
           <Link to="/home">
             <Icon type="pie-chart" />
             <span>Home</span>
@@ -54,17 +54,23 @@ const BaseMenu = ({ collapsed }) => (
         <Menu.Item key="9">
           <Icon type="file" />
           <span>File</span>
+        </Menu.Item> */}
+        <Menu.Item key="1">
+          <Link to="/home">
+            <Icon type="pie-chart" />
+            <span>整体概览</span>
+          </Link>
         </Menu.Item>
-        <Menu.Item key="10">
+        <Menu.Item key="2">
           <Link to="/demo">
             <Icon type="smile-o" />
             <span>Demo</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="11">
+        <Menu.Item key="3">
           <Link to="/house">
             <Icon type="smile-o" />
-            <span>House</span>
+            <span>区块分析</span>
           </Link>
         </Menu.Item>
       </Menu>
