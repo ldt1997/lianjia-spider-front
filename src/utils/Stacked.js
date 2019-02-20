@@ -19,7 +19,7 @@ import DataSet from "@antv/data-set";
 // *****堆叠条形图******
 class Stacked extends React.Component {
   render() {
-    console.log(this.props);
+    const { dataSource = [] } = this.props;
     const data = [
       {
         State: "WY",
@@ -53,14 +53,21 @@ class Stacked extends React.Component {
       }
     ];
     const ds = new DataSet();
-    const dv = ds.createView().source(data);
+    const dv = ds.createView().source(dataSource);
     dv.transform({
       type: "fold",
-      fields: ["小于5岁", "5至13岁", "14至17岁"],
+      fields: [
+        "<100万",
+        "100-150万",
+        "150-200万",
+        "200-250万",
+        "250-300万",
+        ">300万"
+      ],
       // 展开字段集
-      key: "年龄段",
+      key: "价格段",
       // key字段
-      value: "人口数量",
+      value: "房源数量",
       // value字段
       retains: ["State"] // 保留字段集，默认为除fields以外的所有字段
     });
@@ -75,12 +82,12 @@ class Stacked extends React.Component {
               offset: 12
             }}
           />
-          <Axis name="人口数量" />
+          <Axis name="房源数量" />
           <Tooltip />
           <Geom
             type="intervalStack"
-            position="State*人口数量"
-            color={"年龄段"}
+            position="State*房源数量"
+            color={"价格段"}
           />
         </Chart>
       </div>

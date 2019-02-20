@@ -83,8 +83,8 @@ module.exports = function(proxy, allowedHost) {
     },
     public: allowedHost,
     proxy: {
-      "/api/*": {
-        target: "http://localhost:3000/",
+      "/": {
+        target: "http://localhost:8090/",
         // pathRewrite: {'^/itserviceplatform' : ''},
         changeOrigin: false,
         proxyTimeout: 100000
@@ -99,7 +99,7 @@ module.exports = function(proxy, allowedHost) {
       // it used the same host and port.
       // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
       app.use(noopServiceWorkerMiddleware());
-      mock(app);
+      // mock(app);
     }
   };
 };

@@ -44,7 +44,7 @@ function checkStatus(response) {
   });
 
   const error = new Error(response.statusText);
-  error.errCode = response.errCode;
+  error.errorCode = response.errorCode;
   error.errortext = errortext;
   throw error;
 }
@@ -53,21 +53,21 @@ function checkStatus(response) {
  * 检查请求业务是否成功
  */
 function checkCode(response) {
-  if (response.errCode === "0") {
+  if (response.errorCode === "0") {
     return response;
   }
-  if (response.errCode === "1") {
+  if (response.errorCode === "1") {
     // 权限无效处理
   }
 
-  const errortext = response.errMsg || "后端接口返回异常";
+  const errortext = response.errorMsg || "后端接口返回异常";
   notification.error({
-    message: `请求错误 ${response.errCode}`,
+    message: `请求错误 ${response.errorCode}`,
     description: errortext
   });
 
-  const error = new Error(response.errCode);
-  error.errCode = response.errCode;
+  const error = new Error(response.errorCode);
+  error.errorCode = response.errorCode;
   error.errortext = errortext;
   throw error;
 }
@@ -102,7 +102,7 @@ export default function request(url, options) {
     .then(parseJSON)
     .then(checkCode)
     .catch(err => {
-      const status = err.errCode;
+      const status = err.errorCode;
       const { dispatch } = store;
       if (status <= 504 && status >= 500) {
         dispatch(routerRedux.push("/exception/500"));
@@ -122,7 +122,7 @@ export default function request(url, options) {
  * @param {*} url 原URL
  * 可以考虑把固定部分抽离成配置文件，根据需求来
  */
-const trimURL = url => `/api${url}`;
+const trimURL = url => `${url}`;
 
 export const get = (url, data) =>
   request(trimURL(`${url}?${stringify(data)}`), {

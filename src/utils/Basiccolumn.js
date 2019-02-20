@@ -12,14 +12,14 @@ class Basiccolumn extends React.Component {
     return (
       <div>
         <Chart height={400} data={dataSource} scale={cols} forceFit>
-          <Axis name="price" />
-          <Axis name="num" />
+          <Axis name="item" />
+          <Axis name="count" />
           <Tooltip
             crosshairs={{
               type: "y"
             }}
           />
-          <Geom type="interval" position="price*num" />
+          <Geom type="interval" position="item*count" />
         </Chart>
       </div>
     );

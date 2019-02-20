@@ -59,16 +59,22 @@ const columns = [
 class HousePage extends Component {
   state = { loading: true };
 
+  // 请求地区信息及初始信息
   componentDidMount() {
-    // 请求地区信息及初始信息
     this.props.dispatch({
-      type: "house/getPositionData"
+      type: "house/getPosition"
+    });
+    this.props.dispatch({
+      type: "house/getOverviewData",
+      payload: {
+        position: "tianhe"
+      }
     });
     this.props
       .dispatch({
-        type: "house/getHouseData",
+        type: "house/getTableData",
         payload: {
-          position: "天河"
+          position: "tianhe"
         }
       })
       .then(() =>
@@ -76,11 +82,30 @@ class HousePage extends Component {
           loading: false
         })
       );
-
     this.props.dispatch({
-      type: "house/getChartData",
+      type: "house/getDonutData",
       payload: {
-        position: "天河"
+        position: "tianhe",
+        type: 1
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: "tianhe",
+        type: 2
+      }
+    });
+    this.props.dispatch({
+      type: "house/getBarChartData",
+      payload: {
+        position: "tianhe"
+      }
+    });
+    this.props.dispatch({
+      type: "house/getRankData",
+      payload: {
+        position: "tianhe"
       }
     });
   }
@@ -89,11 +114,19 @@ class HousePage extends Component {
     this.setState({
       loading: true
     });
-
     // 切换标签时请求图表和表格信息
+    this.props.dispatch({
+      type: "house/getPosition"
+    });
+    this.props.dispatch({
+      type: "house/getOverviewData",
+      payload: {
+        position: key
+      }
+    });
     this.props
       .dispatch({
-        type: "house/getHouseData",
+        type: "house/getTableData",
         payload: {
           position: key
         }
@@ -104,7 +137,27 @@ class HousePage extends Component {
         })
       );
     this.props.dispatch({
-      type: "house/getChartData",
+      type: "house/getDonutData",
+      payload: {
+        position: key,
+        type: 1
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: key,
+        type: 2
+      }
+    });
+    this.props.dispatch({
+      type: "house/getBarChartData",
+      payload: {
+        position: key
+      }
+    });
+    this.props.dispatch({
+      type: "house/getRankData",
       payload: {
         position: key
       }
@@ -113,11 +166,24 @@ class HousePage extends Component {
 
   render() {
     const { houseData } = this.props;
-    const { houses = [], houseNum } = houseData.list;
-    const { chartData = [] } = houseData;
-    const { list = [] } = houseData.positionData;
-    const tem = list.map(item => (
-      <TabPane tab={item.name} key={item.name}>
+    const {
+      positionData = [],
+      overviewData,
+      list,
+      DonutData1 = [],
+      DonutData2 = [],
+      barChartData = [],
+      rankData = []
+    } = houseData; // 概览数据
+    const { houseList = [] } = list; // 表格数据
+    const {
+      houseNum = 0,
+      avgUnitPrice = 0,
+      avgListedPrice = 0,
+      avgTotalPrice = 0
+    } = overviewData;
+    const tem = positionData.map(item => (
+      <TabPane tab={item.name} key={item.code}>
         <Spin spinning={this.state.loading}>
           <Row>
             <Col span={6}>
@@ -130,14 +196,14 @@ class HousePage extends Component {
             <Col span={6}>
               <Card title="平均单价" style={{ width: 220 }}>
                 <p>
-                  <strong>{chartData[0]}</strong> 元/平米
+                  <strong>{Math.round(avgUnitPrice)}</strong> 元/平米
                 </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card title="平均总价（挂牌）" style={{ width: 220 }}>
                 <p>
-                  <strong>{chartData[1]}</strong> 万
+                  <strong>{Math.round(avgListedPrice)}</strong> 万
                 </p>
               </Card>
             </Col>
@@ -147,21 +213,21 @@ class HousePage extends Component {
                 style={{ width: 220, marginBottom: 20 }}
               >
                 <p>
-                  <strong>{chartData[2]}</strong> 万
+                  <strong>{Math.round(avgTotalPrice)}</strong> 万
                 </p>
               </Card>
             </Col>
           </Row>
-          <Table columns={columns} dataSource={houses} />
+          <Table columns={columns} dataSource={houseList} />
           <Row>
             <Col span={12}>
-              <Labelline dataSource={chartData[3]} houseNum={houseNum} />
+              <Labelline dataSource={DonutData1} houseNum={houseNum} />
             </Col>
             <Col span={12}>
-              <Donut dataSource={chartData[4]} houseNum={houseNum} />
+              <Donut dataSource={DonutData2} houseNum={houseNum} />
             </Col>
           </Row>
-          <Basiccolumn dataSource={chartData[5]} houseNum={houseNum} />
+          <Basiccolumn dataSource={barChartData} houseNum={houseNum} />
         </Spin>
       </TabPane>
     ));
