@@ -1,60 +1,14 @@
 import React, { Component } from "react";
-import { Table, Tabs, Row, Col, Card, Spin } from "antd";
+import { Tabs, Row, Col, Card, Spin } from "antd";
 import { connect } from "dva";
 import styles from "./HousePage.less";
 import Donut from "../../utils/Donut";
 import Labelline from "../../utils/Labelline";
 import Basiccolumn from "../../utils/Basiccolumn";
+import Content from "./components/Content";
+import LongText from "../../utils/LongText";
 
 const { TabPane } = Tabs;
-
-const columns = [
-  {
-    title: "房源名称",
-    dataIndex: "titleName",
-    key: "titleName"
-  },
-  {
-    title: "小区",
-    dataIndex: "name",
-    key: "name"
-  },
-  {
-    title: "户型",
-    dataIndex: "layout",
-    key: "layout"
-  },
-  {
-    title: "大小",
-    key: "size",
-    dataIndex: "size"
-  },
-  {
-    title: "单价",
-    key: "unitPrice",
-    dataIndex: "unitPrice"
-  },
-  {
-    title: "挂牌总价",
-    key: "listedPrice",
-    dataIndex: "listedPrice"
-  },
-  {
-    title: "成交总价",
-    key: "totalPrice",
-    dataIndex: "totalPrice"
-  },
-  {
-    title: "成交日期",
-    key: "dealDate",
-    dataIndex: "dealDate"
-  },
-  {
-    title: "成交周期",
-    key: "dealPeriod",
-    dataIndex: "dealPeriod"
-  }
-];
 
 class HousePage extends Component {
   state = { loading: true };
@@ -165,7 +119,7 @@ class HousePage extends Component {
   };
 
   render() {
-    const { houseData } = this.props;
+    const { houseData, dispatch } = this.props;
     const {
       positionData = [],
       overviewData,
@@ -182,7 +136,7 @@ class HousePage extends Component {
       avgListedPrice = 0,
       avgTotalPrice = 0
     } = overviewData;
-    const tem = positionData.map(item => (
+    const tabContent = positionData.map(item => (
       <TabPane tab={item.name} key={item.code}>
         <Spin spinning={this.state.loading}>
           <Row>
@@ -218,7 +172,12 @@ class HousePage extends Component {
               </Card>
             </Col>
           </Row>
-          <Table columns={columns} dataSource={houseList} />
+          <Content
+            houseList={houseList}
+            position={item.code}
+            dispatch={dispatch}
+            houseNum={houseNum}
+          />
           <Row>
             <Col span={12}>
               <Labelline dataSource={DonutData1} houseNum={houseNum} />
@@ -227,7 +186,31 @@ class HousePage extends Component {
               <Donut dataSource={DonutData2} houseNum={houseNum} />
             </Col>
           </Row>
-          <Basiccolumn dataSource={barChartData} houseNum={houseNum} />
+          <Row>
+            <Col span={16}>
+              <Basiccolumn dataSource={barChartData} houseNum={houseNum} />
+            </Col>
+            <Col span={8}>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="房源价格排名" key="1">
+                  <ul className={styles.rankingList}>
+                    {rankData &&
+                      rankData[0] &&
+                      rankData.slice(0, 7).map((item1, i) => (
+                        <li key={i}>
+                          <span className={i < 3 ? styles.active : ""}>
+                            {i + 1}
+                          </span>
+                          <LongText value={item1.titleName} max={12} />
+                          {/* <span>{item1.titleName}</span> */}
+                          <span>{`${item1.totalPrice}万元`}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </TabPane>
+              </Tabs>
+            </Col>
+          </Row>
         </Spin>
       </TabPane>
     ));
@@ -236,7 +219,7 @@ class HousePage extends Component {
       <div className={styles.root}>
         <h5>广州房源信息</h5>
         <Tabs defaultActiveKey="1" onChange={this.selectPosition}>
-          {tem}
+          {tabContent}
         </Tabs>
       </div>
     );
