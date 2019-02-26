@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Spin } from "antd";
+import { Row, Col, Card, Spin, Tabs } from "antd";
 import { connect } from "dva";
 import styles from "./HomePage.less";
 import Donut from "../../utils/Donut";
@@ -7,6 +7,8 @@ import Labelline from "../../utils/Labelline";
 import Stacked from "../../utils/Stacked";
 import Treemap from "../../utils/Treemap";
 import Basic from "../../utils/Basic";
+
+const { TabPane } = Tabs;
 
 class HomePage extends Component {
   state = { loading: true };
@@ -19,25 +21,25 @@ class HomePage extends Component {
     });
 
     this.props.dispatch({
-      type: "home/getDonutData",
+      type: "home/getDonutData1",
       payload: {
         type: 1
       }
     });
     this.props.dispatch({
-      type: "home/getDonutData",
+      type: "home/getDonutData2",
       payload: {
         type: 2
       }
     });
     this.props.dispatch({
-      type: "home/getDonutData",
+      type: "home/getDonutData3",
       payload: {
         type: 3
       }
     });
     this.props.dispatch({
-      type: "home/getDonutData",
+      type: "home/getDonutData4",
       payload: {
         type: 4
       }
@@ -46,9 +48,13 @@ class HomePage extends Component {
       type: "home/getTreemapData",
       payload: {}
     });
+    this.props.dispatch({
+      type: "home/getStackedData",
+      payload: {}
+    });
     this.props
       .dispatch({
-        type: "home/getStackedData",
+        type: "home/getLineChartData",
         payload: {}
       })
       .then(() =>
@@ -67,7 +73,8 @@ class HomePage extends Component {
       donutData3 = [],
       donutData4 = [],
       treemapData = {},
-      stackedData = []
+      stackedData = [],
+      lineChartData = []
     } = homeData;
     const {
       houseNum = 0,
@@ -81,33 +88,33 @@ class HomePage extends Component {
         <Spin spinning={this.state.loading}>
           <Row>
             <Col span={6}>
-              <Card title="房源数量" style={{ width: 220 }}>
+              <Card title="房源数量" style={{ width: 240 }}>
                 <p>
                   <strong>{houseNum}</strong> 套
                 </p>
               </Card>
             </Col>
             <Col span={6}>
-              <Card title="平均单价" style={{ width: 220 }}>
+              <Card title="平均单价" style={{ width: 240 }}>
                 <p>
-                  <strong>{Math.round(avgUnitPrice)}</strong> 元/平米
+                  <strong>{avgUnitPrice.toFixed(2)}</strong> 元/平米
                 </p>
               </Card>
             </Col>
             <Col span={6}>
-              <Card title="平均总价（挂牌）" style={{ width: 220 }}>
+              <Card title="平均总价（挂牌）" style={{ width: 240 }}>
                 <p>
-                  <strong>{Math.round(avgListedPrice)}</strong> 万
+                  <strong>{avgListedPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card
                 title="平均总价（成交）"
-                style={{ width: 220, marginBottom: 20 }}
+                style={{ width: 240, marginBottom: 20 }}
               >
                 <p>
-                  <strong>{Math.round(avgTotalPrice)}</strong> 万
+                  <strong>{avgTotalPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
@@ -115,24 +122,48 @@ class HomePage extends Component {
 
           <Row>
             <Col span={12}>
-              <Labelline dataSource={donutData1} houseNum={houseNum} />
+              <Card title="房源数量对比（按区块）">
+                <Labelline dataSource={donutData1} houseNum={houseNum} />
+              </Card>
             </Col>
             <Col span={12}>
-              <Donut dataSource={donutData2} houseNum={houseNum} />
+              <Card title="广州买家需求占比-户型">
+                <Donut dataSource={donutData2} houseNum={houseNum} />
+              </Card>
             </Col>
           </Row>
 
           <Row>
             <Col span={12}>
-              <Labelline dataSource={donutData3} houseNum={houseNum} />
+              <Card title="价格需求占比">
+                <Labelline dataSource={donutData3} houseNum={houseNum} />
+              </Card>
             </Col>
             <Col span={12}>
-              <Donut dataSource={donutData4} houseNum={houseNum} />
+              <Card title="广州买家需求占比-面积">
+                <Donut dataSource={donutData4} houseNum={houseNum} />
+              </Card>
             </Col>
           </Row>
-          <Treemap dataSource={treemapData} />
-          <Stacked dataSource={stackedData} />
-          <Basic />
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="广州各区块二手房价对比" key="1">
+              <Treemap dataSource={treemapData} />
+            </TabPane>
+          </Tabs>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="各区块房价区间一览" key="1">
+              <Stacked dataSource={stackedData} />
+            </TabPane>
+          </Tabs>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="成交房源趋势" key="1">
+              <Basic
+                dataSource={
+                  lineChartData && lineChartData.sort((x, y) => x.item - y.item)
+                }
+              />
+            </TabPane>
+          </Tabs>
         </Spin>
       </div>
     );

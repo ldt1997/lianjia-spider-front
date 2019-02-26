@@ -150,14 +150,14 @@ class HousePage extends Component {
             <Col span={6}>
               <Card title="平均单价" style={{ width: 220 }}>
                 <p>
-                  <strong>{Math.round(avgUnitPrice)}</strong> 元/平米
+                  <strong>{avgUnitPrice.toFixed(2)}</strong> 元/平米
                 </p>
               </Card>
             </Col>
             <Col span={6}>
               <Card title="平均总价（挂牌）" style={{ width: 220 }}>
                 <p>
-                  <strong>{Math.round(avgListedPrice)}</strong> 万
+                  <strong>{avgListedPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
@@ -167,7 +167,7 @@ class HousePage extends Component {
                 style={{ width: 220, marginBottom: 20 }}
               >
                 <p>
-                  <strong>{Math.round(avgTotalPrice)}</strong> 万
+                  <strong>{avgTotalPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
@@ -180,36 +180,44 @@ class HousePage extends Component {
           />
           <Row>
             <Col span={12}>
-              <Labelline dataSource={DonutData1} houseNum={houseNum} />
+              <Card title="广州买家需求占比-户型">
+                <Donut dataSource={DonutData2} houseNum={houseNum} />
+              </Card>
             </Col>
             <Col span={12}>
-              <Donut dataSource={DonutData2} houseNum={houseNum} />
+              <Card title="房源数量对比（按小区）">
+                <Labelline dataSource={DonutData1} houseNum={houseNum} />
+              </Card>
             </Col>
           </Row>
           <Row>
-            <Col span={16}>
-              <Basiccolumn dataSource={barChartData} houseNum={houseNum} />
-            </Col>
-            <Col span={8}>
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="房源价格排名" key="1">
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="房源价格区间" key="1">
+                <Col span={16}>
+                  <Basiccolumn
+                    dataSource={barChartData}
+                    houseNum={houseNum}
+                    titleName="价格区间数量"
+                  />
+                </Col>
+                <Col span={8}>
                   <ul className={styles.rankingList}>
+                    <strong>最贵小区排名</strong>
                     {rankData &&
                       rankData[0] &&
-                      rankData.slice(0, 7).map((item1, i) => (
+                      rankData.slice(0, 8).map((item1, i) => (
                         <li key={i}>
                           <span className={i < 3 ? styles.active : ""}>
                             {i + 1}
                           </span>
                           <LongText value={item1.titleName} max={12} />
-                          {/* <span>{item1.titleName}</span> */}
                           <span>{`${item1.totalPrice}万元`}</span>
                         </li>
                       ))}
                   </ul>
-                </TabPane>
-              </Tabs>
-            </Col>
+                </Col>
+              </TabPane>
+            </Tabs>
           </Row>
         </Spin>
       </TabPane>

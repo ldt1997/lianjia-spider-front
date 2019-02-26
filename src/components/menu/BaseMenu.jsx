@@ -61,13 +61,13 @@ const BaseMenu = ({ collapsed }) => (
             <span>整体概览</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="2">
+        {/* <Menu.Item key="2">
           <Link to="/demo">
             <Icon type="smile-o" />
             <span>Demo</span>
           </Link>
-        </Menu.Item>
-        <Menu.Item key="3">
+        </Menu.Item> */}
+        <Menu.Item key="2">
           <Link to="/house">
             <Icon type="smile-o" />
             <span>区块分析</span>

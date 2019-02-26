@@ -34,10 +34,10 @@ class Donut extends React.Component {
     return (
       <div>
         <Chart
-          height={window.innerHeight}
+          // height={window.innerHeight}
           data={dv}
           scale={cols}
-          padding={[80, 100, 80, 80]}
+          padding={[40, 100, 40, 80]}
           forceFit
         >
           <Coord type={"theta"} radius={0.75} innerRadius={0.6} />
