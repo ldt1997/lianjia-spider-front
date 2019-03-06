@@ -82,33 +82,42 @@ class HomePage extends Component {
       avgListedPrice = 0,
       avgTotalPrice = 0
     } = overviewData;
+
+    // 概览响应式栅格
+    const topColResponsiveProps = {
+      xs: 24,
+      sm: 12,
+      md: 12,
+      lg: 6,
+      xl: 6
+    };
     return (
       <div className={styles.root}>
         <h5>广州房源信息</h5>
         <Spin spinning={this.state.loading}>
-          <Row>
-            <Col span={6}>
+          <Row gutter={24}>
+            <Col {...topColResponsiveProps}>
               <Card title="房源数量" style={{ width: 240 }}>
                 <p>
                   <strong>{houseNum}</strong> 套
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card title="平均单价" style={{ width: 240 }}>
                 <p>
                   <strong>{avgUnitPrice.toFixed(2)}</strong> 元/平米
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card title="平均总价（挂牌）" style={{ width: 240 }}>
                 <p>
                   <strong>{avgListedPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card
                 title="平均总价（成交）"
                 style={{ width: 240, marginBottom: 20 }}
@@ -120,26 +129,26 @@ class HomePage extends Component {
             </Col>
           </Row>
 
-          <Row>
-            <Col span={12}>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="房源数量对比（按区块）">
                 <Labelline dataSource={donutData1} houseNum={houseNum} />
               </Card>
             </Col>
-            <Col span={12}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="广州买家需求占比-户型">
                 <Donut dataSource={donutData2} houseNum={houseNum} />
               </Card>
             </Col>
           </Row>
 
-          <Row>
-            <Col span={12}>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="价格需求占比">
                 <Labelline dataSource={donutData3} houseNum={houseNum} />
               </Card>
             </Col>
-            <Col span={12}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="广州买家需求占比-面积">
                 <Donut dataSource={donutData4} houseNum={houseNum} />
               </Card>

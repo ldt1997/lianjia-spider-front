@@ -14,6 +14,11 @@ const getDonutData = data => post("/house/searchDonutData", data);
 const getBarChartData = data => post("/house/searchBarChartData", data);
 // 获取排名数据
 const getRankData = data => post("/house/searchRankData", data);
+// 获取曲线折线图数据
+const getCurvedLineChartData = data =>
+  post("/house/searchCurvedLineChartData", data);
+// 获取面积图数据
+const getAreaChartData = data => post("/house/searchAreaChartData", data);
 
 export default {
   getHousePosition,
@@ -21,5 +26,7 @@ export default {
   getTableData,
   getDonutData,
   getBarChartData,
-  getRankData
+  getRankData,
+  getCurvedLineChartData,
+  getAreaChartData
 };

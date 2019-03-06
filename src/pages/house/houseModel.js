@@ -6,7 +6,9 @@ const {
   getTableData,
   getDonutData,
   getBarChartData,
-  getRankData
+  getRankData,
+  getCurvedLineChartData,
+  getAreaChartData
 } = apis;
 
 export default {
@@ -18,7 +20,9 @@ export default {
     DonutData1: [], // 饼图数据（按小区）
     DonutData2: [], // 饼图数据（按户型）
     barChartData: [], // 柱状图数据
-    rankData: [] // 排名数据
+    rankData: [], // 排名数据
+    curvedLineChartData: [], // 曲线折线图数据
+    areaChartData: [] // 面积图数据
   },
   effects: {
     // 获取区域列表
@@ -64,6 +68,18 @@ export default {
       const { data = [] } = yield call(getRankData, payload);
       const { filterData = [] } = data;
       yield put({ type: "saveRankData", payload: filterData });
+    },
+    // 获取曲线折线图数据
+    *getCurvedLineChartData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getCurvedLineChartData, payload);
+      const { filterData = [] } = data;
+      yield put({ type: "saveCurvedLineChartData", payload: filterData });
+    },
+    // 获取面积图数据
+    *getAreaChartData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getAreaChartData, payload);
+      const { filterData = [] } = data;
+      yield put({ type: "saveAreaChartData", payload: filterData });
     }
   },
   reducers: {
@@ -107,6 +123,18 @@ export default {
       return {
         ...state,
         rankData: payload
+      };
+    },
+    saveCurvedLineChartData(state, { payload }) {
+      return {
+        ...state,
+        curvedLineChartData: payload
+      };
+    },
+    saveAreaChartData(state, { payload }) {
+      return {
+        ...state,
+        areaChartData: payload
       };
     }
   }

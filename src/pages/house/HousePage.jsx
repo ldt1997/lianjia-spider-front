@@ -5,6 +5,9 @@ import styles from "./HousePage.less";
 import Donut from "../../utils/Donut";
 import Labelline from "../../utils/Labelline";
 import Basiccolumn from "../../utils/Basiccolumn";
+import AreaChart from "../../utils/AreaChart";
+import CurvedLineChart from "../../utils/CurvedLineChart";
+import Basic from "../../utils/Basic";
 import Content from "./components/Content";
 import LongText from "../../utils/LongText";
 
@@ -24,18 +27,12 @@ class HousePage extends Component {
         position: "tianhe"
       }
     });
-    this.props
-      .dispatch({
-        type: "house/getTableData",
-        payload: {
-          position: "tianhe"
-        }
-      })
-      .then(() =>
-        this.setState({
-          loading: false
-        })
-      );
+    this.props.dispatch({
+      type: "house/getTableData",
+      payload: {
+        position: "tianhe"
+      }
+    });
     this.props.dispatch({
       type: "house/getDonutData",
       payload: {
@@ -62,6 +59,24 @@ class HousePage extends Component {
         position: "tianhe"
       }
     });
+    this.props.dispatch({
+      type: "house/getCurvedLineChartData",
+      payload: {
+        position: "tianhe"
+      }
+    });
+    this.props
+      .dispatch({
+        type: "house/getAreaChartData",
+        payload: {
+          position: "tianhe"
+        }
+      })
+      .then(() =>
+        this.setState({
+          loading: false
+        })
+      );
   }
 
   selectPosition = key => {
@@ -78,18 +93,12 @@ class HousePage extends Component {
         position: key
       }
     });
-    this.props
-      .dispatch({
-        type: "house/getTableData",
-        payload: {
-          position: key
-        }
-      })
-      .then(() =>
-        this.setState({
-          loading: false
-        })
-      );
+    this.props.dispatch({
+      type: "house/getTableData",
+      payload: {
+        position: key
+      }
+    });
     this.props.dispatch({
       type: "house/getDonutData",
       payload: {
@@ -116,6 +125,24 @@ class HousePage extends Component {
         position: key
       }
     });
+    this.props.dispatch({
+      type: "house/getCurvedLineChartData",
+      payload: {
+        position: key
+      }
+    });
+    this.props
+      .dispatch({
+        type: "house/getAreaChartData",
+        payload: {
+          position: key
+        }
+      })
+      .then(() =>
+        this.setState({
+          loading: false
+        })
+      );
   };
 
   render() {
@@ -127,7 +154,9 @@ class HousePage extends Component {
       DonutData1 = [],
       DonutData2 = [],
       barChartData = [],
-      rankData = []
+      rankData = [],
+      curvedLineChartData = [],
+      areaChartData = []
     } = houseData; // 概览数据
     const { houseList = [] } = list; // 表格数据
     const {
@@ -136,32 +165,40 @@ class HousePage extends Component {
       avgListedPrice = 0,
       avgTotalPrice = 0
     } = overviewData;
+    // 概览响应式栅格
+    const topColResponsiveProps = {
+      xs: 24,
+      sm: 12,
+      md: 12,
+      lg: 6,
+      xl: 6
+    };
     const tabContent = positionData.map(item => (
       <TabPane tab={item.name} key={item.code}>
         <Spin spinning={this.state.loading}>
-          <Row>
-            <Col span={6}>
+          <Row gutter={24}>
+            <Col {...topColResponsiveProps}>
               <Card title="房源数量" style={{ width: 220 }}>
                 <p>
                   <strong>{houseNum}</strong> 套
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card title="平均单价" style={{ width: 220 }}>
                 <p>
                   <strong>{avgUnitPrice.toFixed(2)}</strong> 元/平米
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card title="平均总价（挂牌）" style={{ width: 220 }}>
                 <p>
                   <strong>{avgListedPrice.toFixed(2)}</strong> 万
                 </p>
               </Card>
             </Col>
-            <Col span={6}>
+            <Col {...topColResponsiveProps}>
               <Card
                 title="平均总价（成交）"
                 style={{ width: 220, marginBottom: 20 }}
@@ -178,29 +215,43 @@ class HousePage extends Component {
             dispatch={dispatch}
             houseNum={houseNum}
           />
-          <Row>
-            <Col span={12}>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="广州买家需求占比-户型">
                 <Donut dataSource={DonutData2} houseNum={houseNum} />
               </Card>
             </Col>
-            <Col span={12}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
               <Card title="房源数量对比（按小区）">
                 <Labelline dataSource={DonutData1} houseNum={houseNum} />
               </Card>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={24}>
+            <Col span={24}>
+              <Card title="房价（总价）随面积变化趋势">
+                <CurvedLineChart dataSource={curvedLineChartData} />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={24}>
+              <Card title="成交周期随面积变化趋势">
+                <AreaChart dataSource={areaChartData} />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={24}>
             <Tabs defaultActiveKey="1">
               <TabPane tab="房源价格区间" key="1">
-                <Col span={16}>
+                <Col xl={16} lg={16} md={16} sm={24} xs={24}>
                   <Basiccolumn
                     dataSource={barChartData}
                     houseNum={houseNum}
                     titleName="价格区间数量"
                   />
                 </Col>
-                <Col span={8}>
+                <Col xl={8} lg={8} md={8} sm={24} xs={24}>
                   <ul className={styles.rankingList}>
                     <strong>最贵小区排名</strong>
                     {rankData &&
