@@ -8,7 +8,8 @@ const {
   getBarChartData,
   getRankData,
   getCurvedLineChartData,
-  getAreaChartData
+  getDecorPriceData,
+  getDecorBoxData
 } = apis;
 
 export default {
@@ -17,12 +18,15 @@ export default {
     positionData: [], // 位置列表
     overviewData: {}, // 概览数据
     list: [], // 房源列表
-    DonutData1: [], // 饼图数据（按小区）
+    DonutData1: [], // 饼图数据（按电梯）
     DonutData2: [], // 饼图数据（按户型）
+    DonutData3: [], // 饼图数据（按朝向）
+    DonutData4: [], // 饼图数据（按装修）
     barChartData: [], // 柱状图数据
     rankData: [], // 排名数据
     curvedLineChartData: [], // 曲线折线图数据
-    areaChartData: [] // 面积图数据
+    decorPriceData: [], // 装修直方图
+    decorBoxData: [] // 装修盒形图
   },
   effects: {
     // 获取区域列表
@@ -52,6 +56,12 @@ export default {
         case 2:
           yield put({ type: "saveDonutData2", payload: filterData });
           break;
+        case 3:
+          yield put({ type: "saveDonutData3", payload: filterData });
+          break;
+        case 4:
+          yield put({ type: "saveDonutData4", payload: filterData });
+          break;
         default:
           yield put({ type: "saveDonutData1", payload: filterData });
           break;
@@ -75,11 +85,17 @@ export default {
       const { filterData = [] } = data;
       yield put({ type: "saveCurvedLineChartData", payload: filterData });
     },
-    // 获取面积图数据
-    *getAreaChartData({ payload }, { call, put }) {
-      const { data = [] } = yield call(getAreaChartData, payload);
+    // 获取装修直方图
+    *getDecorPriceData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getDecorPriceData, payload);
       const { filterData = [] } = data;
-      yield put({ type: "saveAreaChartData", payload: filterData });
+      yield put({ type: "saveDecorPriceData", payload: filterData });
+    },
+    // 获取箱型图数据
+    *getDecorBoxData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getDecorBoxData, payload);
+      const { filterData = [] } = data;
+      yield put({ type: "saveDecorBoxData", payload: filterData });
     }
   },
   reducers: {
@@ -113,6 +129,18 @@ export default {
         DonutData2: payload
       };
     },
+    saveDonutData3(state, { payload }) {
+      return {
+        ...state,
+        DonutData3: payload
+      };
+    },
+    saveDonutData4(state, { payload }) {
+      return {
+        ...state,
+        DonutData4: payload
+      };
+    },
     saveBarChartData(state, { payload }) {
       return {
         ...state,
@@ -131,10 +159,16 @@ export default {
         curvedLineChartData: payload
       };
     },
-    saveAreaChartData(state, { payload }) {
+    saveDecorPriceData(state, { payload }) {
       return {
         ...state,
-        areaChartData: payload
+        decorPriceData: payload
+      };
+    },
+    saveDecorBoxData(state, { payload }) {
+      return {
+        ...state,
+        decorBoxData: payload
       };
     }
   }

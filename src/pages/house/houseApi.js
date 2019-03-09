@@ -17,8 +17,10 @@ const getRankData = data => post("/house/searchRankData", data);
 // 获取曲线折线图数据
 const getCurvedLineChartData = data =>
   post("/house/searchCurvedLineChartData", data);
-// 获取面积图数据
-const getAreaChartData = data => post("/house/searchAreaChartData", data);
+// 获取装修与平均单价关系数据
+const getDecorPriceData = data => post("/house/searchDecorPriceData", data);
+// 获取曲线折线图数据
+const getDecorBoxData = data => post("/house/searchDecorBoxData", data);
 
 export default {
   getHousePosition,
@@ -28,5 +30,6 @@ export default {
   getBarChartData,
   getRankData,
   getCurvedLineChartData,
-  getAreaChartData
+  getDecorPriceData,
+  getDecorBoxData
 };

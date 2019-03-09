@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Row, Col, Card, Spin } from "antd";
+import { Tabs, Row, Col, Card, Spin, Statistic, Icon } from "antd";
 import { connect } from "dva";
 import styles from "./HousePage.less";
 import Donut from "../../utils/Donut";
@@ -7,7 +7,7 @@ import Labelline from "../../utils/Labelline";
 import Basiccolumn from "../../utils/Basiccolumn";
 import AreaChart from "../../utils/AreaChart";
 import CurvedLineChart from "../../utils/CurvedLineChart";
-import Basic from "../../utils/Basic";
+import BoxPlot from "../../utils/BoxPlot";
 import Content from "./components/Content";
 import LongText from "../../utils/LongText";
 
@@ -48,6 +48,20 @@ class HousePage extends Component {
       }
     });
     this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: "tianhe",
+        type: 3
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: "tianhe",
+        type: 4
+      }
+    });
+    this.props.dispatch({
       type: "house/getBarChartData",
       payload: {
         position: "tianhe"
@@ -60,14 +74,20 @@ class HousePage extends Component {
       }
     });
     this.props.dispatch({
-      type: "house/getCurvedLineChartData",
+      type: "house/getDecorPriceData",
+      payload: {
+        position: "tianhe"
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDecorBoxData",
       payload: {
         position: "tianhe"
       }
     });
     this.props
       .dispatch({
-        type: "house/getAreaChartData",
+        type: "house/getCurvedLineChartData",
         payload: {
           position: "tianhe"
         }
@@ -114,6 +134,20 @@ class HousePage extends Component {
       }
     });
     this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: key,
+        type: 3
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDonutData",
+      payload: {
+        position: key,
+        type: 4
+      }
+    });
+    this.props.dispatch({
       type: "house/getBarChartData",
       payload: {
         position: key
@@ -126,14 +160,20 @@ class HousePage extends Component {
       }
     });
     this.props.dispatch({
-      type: "house/getCurvedLineChartData",
+      type: "house/getDecorPriceData",
+      payload: {
+        position: key
+      }
+    });
+    this.props.dispatch({
+      type: "house/getDecorBoxData",
       payload: {
         position: key
       }
     });
     this.props
       .dispatch({
-        type: "house/getAreaChartData",
+        type: "house/getCurvedLineChartData",
         payload: {
           position: key
         }
@@ -153,59 +193,96 @@ class HousePage extends Component {
       list,
       DonutData1 = [],
       DonutData2 = [],
+      DonutData3 = [],
+      DonutData4 = [],
       barChartData = [],
       rankData = [],
       curvedLineChartData = [],
-      areaChartData = []
+      decorPriceData = [],
+      decorBoxData = []
     } = houseData; // 概览数据
     const { houseList = [] } = list; // 表格数据
     const {
       houseNum = 0,
       avgUnitPrice = 0,
       avgListedPrice = 0,
-      avgTotalPrice = 0
+      avgTotalPrice = 0,
+      avgSize = 0,
+      avgDealPeriod = 0
     } = overviewData;
     // 概览响应式栅格
     const topColResponsiveProps = {
       xs: 24,
       sm: 12,
       md: 12,
-      lg: 6,
-      xl: 6
+      lg: 8,
+      xl: 8,
+      marginBottom: 20
     };
     const tabContent = positionData.map(item => (
       <TabPane tab={item.name} key={item.code}>
         <Spin spinning={this.state.loading}>
           <Row gutter={24}>
             <Col {...topColResponsiveProps}>
-              <Card title="房源数量" style={{ width: 220 }}>
-                <p>
-                  <strong>{houseNum}</strong> 套
-                </p>
+              <Card>
+                <Statistic
+                  title="房源数量"
+                  value={houseNum}
+                  prefix={<Icon type="home" />}
+                  suffix="套"
+                />
               </Card>
             </Col>
             <Col {...topColResponsiveProps}>
-              <Card title="平均单价" style={{ width: 220 }}>
-                <p>
-                  <strong>{avgUnitPrice.toFixed(2)}</strong> 元/平米
-                </p>
+              <Card>
+                <Statistic
+                  title="平均单价"
+                  value={avgUnitPrice.toFixed(2)}
+                  prefix={<Icon type="money-collect" />}
+                  suffix="元/平米"
+                />
+              </Card>
+            </Col>
+            <Col {...topColResponsiveProps} style={{ marginBottom: 20 }}>
+              <Card>
+                <Statistic
+                  title="平均总价（挂牌）"
+                  value={avgListedPrice.toFixed(2)}
+                  prefix={<Icon type="red-enevlope" />}
+                  suffix="万元"
+                />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col {...topColResponsiveProps}>
+              <Card>
+                <Statistic
+                  title="平均总价（成交）"
+                  value={avgTotalPrice.toFixed(2)}
+                  prefix={<Icon type="dollar" />}
+                  suffix="万元"
+                />
               </Card>
             </Col>
             <Col {...topColResponsiveProps}>
-              <Card title="平均总价（挂牌）" style={{ width: 220 }}>
-                <p>
-                  <strong>{avgListedPrice.toFixed(2)}</strong> 万
-                </p>
+              <Card>
+                <Statistic
+                  title="平均面积"
+                  value={avgSize.toFixed(2)}
+                  prefix={<Icon type="shop" />}
+                  suffix="平米"
+                />
               </Card>
             </Col>
             <Col {...topColResponsiveProps}>
-              <Card
-                title="平均总价（成交）"
-                style={{ width: 220, marginBottom: 20 }}
-              >
-                <p>
-                  <strong>{avgTotalPrice.toFixed(2)}</strong> 万
-                </p>
+              <Card>
+                <Statistic
+                  title="平均成交天数"
+                  value={avgDealPeriod.toFixed(2)}
+                  prefix={<Icon type="schedule" />}
+                  suffix="天"
+                />
               </Card>
             </Col>
           </Row>
@@ -222,8 +299,36 @@ class HousePage extends Component {
               </Card>
             </Col>
             <Col xl={12} lg={12} md={12} sm={24} xs={24}>
-              <Card title="房源数量对比（按小区）">
+              <Card title="广州买家需求占比-电梯">
                 <Labelline dataSource={DonutData1} houseNum={houseNum} />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+              <Card title="广州买家需求占比-朝向">
+                <Donut dataSource={DonutData3} houseNum={houseNum} />
+              </Card>
+            </Col>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+              <Card title="广州买家需求占比-装修">
+                <Labelline dataSource={DonutData4} houseNum={houseNum} />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+              <Card title="装修-价格关系">
+                <Basiccolumn
+                  dataSource={decorPriceData}
+                  houseNum={houseNum}
+                  titleName="装修-价格关系"
+                />
+              </Card>
+            </Col>
+            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+              <Card title="装修-价格箱型图">
+                <BoxPlot dataSource={decorBoxData} houseNum={houseNum} />
               </Card>
             </Col>
           </Row>
@@ -231,13 +336,6 @@ class HousePage extends Component {
             <Col span={24}>
               <Card title="房价（总价）随面积变化趋势">
                 <CurvedLineChart dataSource={curvedLineChartData} />
-              </Card>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={24}>
-              <Card title="成交周期随面积变化趋势">
-                <AreaChart dataSource={areaChartData} />
               </Card>
             </Col>
           </Row>
