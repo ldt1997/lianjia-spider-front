@@ -248,7 +248,7 @@ class HousePage extends Component {
                 <Statistic
                   title="平均总价（挂牌）"
                   value={avgListedPrice.toFixed(2)}
-                  prefix={<Icon type="red-enevlope" />}
+                  prefix={<Icon type="money-collect" />}
                   suffix="万元"
                 />
               </Card>

@@ -85,7 +85,7 @@ module.exports = function(proxy, allowedHost) {
     proxy: {
       "/": {
         target: "http://localhost:8090/",
-        // target: "http://39.108.182.168:8090/", // 云服务器地址
+        // target: "http://39.108.182.168:8090/", // 阿里云服务器地址
         // pathRewrite: {'^/itserviceplatform' : ''},
         changeOrigin: false,
         proxyTimeout: 100000

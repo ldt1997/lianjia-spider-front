@@ -89,10 +89,6 @@ class BoxPlot extends React.Component {
     const dv = new DataView().source(dataSource);
     dv.transform({
       type: "map",
-      // callback: obj => ({
-      //   obj.range = [obj.low, obj.q1, obj.median, obj.q3, obj.high];
-      //   return obj;
-      // })
       callback: obj => ({
         ...obj,
         range: [obj.low, obj.q1, obj.median, obj.q3, obj.high]
@@ -100,18 +96,13 @@ class BoxPlot extends React.Component {
     });
     const cols = {
       range: {
-        max: 35
+        max: 200000
       }
     };
     return (
       <div>
-        <Chart
-          height={window.innerHeight}
-          data={dv}
-          scale={cols}
-          padding={[20, 120, 95]}
-          forceFit
-        >
+        <Chart height={400} data={dv} scale={cols} forceFit>
+          <strong className="main-title">装修-价格箱型图</strong>
           <Axis name="x" />
           <Axis name="range" />
           <Tooltip
@@ -132,16 +123,6 @@ class BoxPlot extends React.Component {
             shape="box"
             tooltip={[
               "x*low*q1*median*q3*high",
-              // (x, low, q1, median, q3, high) => {
-              //   return {
-              //     name: x,
-              //     low,
-              //     q1,
-              //     median,
-              //     q3,
-              //     high
-              //   };
-              // }
               (x, low, q1, median, q3, high) => ({
                 name: x,
                 low,

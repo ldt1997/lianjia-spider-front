@@ -4,8 +4,8 @@ import { get, post } from "../../utils/request";
 
 // 获取概览数据
 const getOverviewData = data => post("/home/searchOverviewData", data);
-// // 获取饼图数据
-// const getDonutData = data => post("/home/searchDonutData", data);
+//  获取饼图数据
+const getDonutData = data => post("/home/searchDonutData", data);
 // 获取饼图数据
 const getDonutData1 = data => post("/home/searchDonutData1", data);
 // 获取饼图数据
@@ -20,13 +20,20 @@ const getTreemapData = data => post("/home/searchTreemapData", data);
 const getStackedData = data => post("/home/searchStackedData", data);
 // 获取折线图数据
 const getLineChartData = data => post("/home/searchLineChartData", data);
+// 获取装修与平均单价关系数据
+const getDecorPriceData = data => post("/home/searchDecorPriceData", data);
+// 获取曲线折线图数据
+const getDecorBoxData = data => post("/home/searchDecorBoxData", data);
 export default {
   getOverviewData,
+  getDonutData,
   getDonutData1,
   getDonutData2,
   getDonutData3,
   getDonutData4,
   getTreemapData,
   getStackedData,
-  getLineChartData
+  getLineChartData,
+  getDecorPriceData,
+  getDecorBoxData
 };

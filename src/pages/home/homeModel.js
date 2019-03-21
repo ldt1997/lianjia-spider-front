@@ -2,13 +2,16 @@ import apis from "./homeApi";
 
 const {
   getOverviewData,
+  getDonutData,
   getDonutData1,
   getDonutData2,
   getDonutData3,
   getDonutData4,
   getTreemapData,
   getStackedData,
-  getLineChartData
+  getLineChartData,
+  getDecorPriceData,
+  getDecorBoxData
 } = apis;
 
 export default {
@@ -19,6 +22,9 @@ export default {
     donutData2: [], // 饼图数据（按户型）
     donutData3: [], // 饼图数据（按价格）
     donutData4: [], // 饼图数据（按面积）
+    donutData5: [], // 饼图数据（按电梯）
+    donutData6: [], // 饼图数据（按朝向）
+    donutData7: [], // 饼图数据（按装修）
     treemapData: {}, // 树图图数据
     stackedData: [], // 条形图数据
     lineChartData: [] // 折线图数据
@@ -29,28 +35,25 @@ export default {
       const { data = {} } = yield call(getOverviewData, payload);
       yield put({ type: "saveOverviewData", payload: data });
     },
-    // // 获取饼图数据
-    // *getDonutData({ payload }, { call, put }) {
-    //   const { data = [] } = yield call(getDonutData, payload);
-    //   const { filterData = [] } = data;
-    //   switch (payload.type) {
-    //     case 1:
-    //       yield put({ type: "saveDonutData1", payload: filterData });
-    //       break;
-    //     case 2:
-    //       yield put({ type: "saveDonutData2", payload: filterData });
-    //       break;
-    //     case 3:
-    //       yield put({ type: "saveDonutData3", payload: filterData });
-    //       break;
-    //     case 4:
-    //       yield put({ type: "saveDonutData4", payload: filterData });
-    //       break;
-    //     default:
-    //       yield put({ type: "saveDonutData1", payload: filterData });
-    //       break;
-    //   }
-    // },
+    // 获取饼图数据
+    *getDonutData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getDonutData, payload);
+      const { filterData = [] } = data;
+      switch (payload.type) {
+        case 5:
+          yield put({ type: "saveDonutData5", payload: filterData });
+          break;
+        case 6:
+          yield put({ type: "saveDonutData6", payload: filterData });
+          break;
+        case 7:
+          yield put({ type: "saveDonutData7", payload: filterData });
+          break;
+        default:
+          yield put({ type: "saveDonutData5", payload: filterData });
+          break;
+      }
+    },
     // 获取饼图数据
     *getDonutData1({ payload }, { call, put }) {
       const { data = [] } = yield call(getDonutData1, payload);
@@ -92,6 +95,18 @@ export default {
       const { data = [] } = yield call(getLineChartData, payload);
       const { filterData = [] } = data;
       yield put({ type: "saveLineChartData", payload: filterData });
+    },
+    // 获取装修直方图
+    *getDecorPriceData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getDecorPriceData, payload);
+      const { filterData = [] } = data;
+      yield put({ type: "saveDecorPriceData", payload: filterData });
+    },
+    // 获取箱型图数据
+    *getDecorBoxData({ payload }, { call, put }) {
+      const { data = [] } = yield call(getDecorBoxData, payload);
+      const { filterData = [] } = data;
+      yield put({ type: "saveDecorBoxData", payload: filterData });
     }
   },
   reducers: {
@@ -125,6 +140,24 @@ export default {
         donutData4: payload
       };
     },
+    saveDonutData5(state, { payload }) {
+      return {
+        ...state,
+        donutData5: payload
+      };
+    },
+    saveDonutData6(state, { payload }) {
+      return {
+        ...state,
+        donutData6: payload
+      };
+    },
+    saveDonutData7(state, { payload }) {
+      return {
+        ...state,
+        donutData7: payload
+      };
+    },
     saveTreemapData(state, { payload }) {
       return {
         ...state,
@@ -141,6 +174,18 @@ export default {
       return {
         ...state,
         lineChartData: payload
+      };
+    },
+    saveDecorPriceData(state, { payload }) {
+      return {
+        ...state,
+        decorPriceData: payload
+      };
+    },
+    saveDecorBoxData(state, { payload }) {
+      return {
+        ...state,
+        decorBoxData: payload
       };
     }
   }

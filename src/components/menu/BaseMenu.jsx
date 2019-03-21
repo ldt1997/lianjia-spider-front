@@ -11,7 +11,11 @@ const BaseMenu = ({ collapsed }) => (
   <Sider collapsed={collapsed}>
     <div className={styles.root}>
       <div className={styles.logo}>
-        <div className={styles.img}>{/* ... */}</div>
+        <h4 style={{ color: "white" }}>
+          <Icon type="home" style={{ fontSize: "16px", color: "white" }} />
+          &nbsp;&nbsp;链家房源可视化系统
+        </h4>
+        <div className={styles.img}>{}</div>
       </div>
       <Menu defaultSelectedKeys={["1"]} mode="inline" theme="dark">
         {/* <Menu.Item key="1">

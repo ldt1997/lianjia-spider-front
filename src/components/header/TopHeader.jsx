@@ -1,6 +1,6 @@
-import React from 'react';
-import { Dropdown, Avatar, Menu, Icon, Layout } from 'antd';
-import styles from './TopHeader.less';
+import React from "react";
+import { Dropdown, Avatar, Menu, Icon, Layout } from "antd";
+import styles from "./TopHeader.less";
 
 const { Header } = Layout;
 
@@ -11,7 +11,8 @@ const TopHeader = ({ collapsed, onCollapse }) => {
   const menu = (
     <Menu className={styles.menu} onClick={onMenuClick}>
       <Menu.Item key="logout" className={styles.logout}>
-        <Icon type="logout" />退出登录
+        <Icon type="logout" />
+        退出登录
       </Menu.Item>
     </Menu>
   );
@@ -21,7 +22,7 @@ const TopHeader = ({ collapsed, onCollapse }) => {
         {/* <div className={styles.logo}>...</div> */}
         <Icon
           className={styles.trigger}
-          type={collapsed ? 'menu-unfold' : 'menu-fold'}
+          type={collapsed ? "menu-unfold" : "menu-fold"}
           onClick={onCollapse}
         />
       </div>
@@ -33,14 +34,14 @@ const TopHeader = ({ collapsed, onCollapse }) => {
           <Icon type="file-text" />
         </div>
         <div className={styles.item}>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={["click"]}>
             <span className={styles.userBox}>
               <Avatar
-                style={{ backgroundColor: '#87d068' }}
+                style={{ backgroundColor: "#87d068" }}
                 className={styles.img}
                 icon="user"
               />
-              <span className={styles.name}>张三</span>
+              <span className={styles.name}>游客</span>
             </span>
           </Dropdown>
         </div>
