@@ -54,7 +54,7 @@ class Donut extends React.Component {
           <Guide>
             <Html
               position={["50%", "50%"]}
-              html={`<div style="color:#8c8c8c;font-size:1em;text-align: center;width: 10em;">二手房<br><span style="color:#262626;font-size:2.5em">${houseNum}</span>套</div>`}
+              html={`<div style="color:#8c8c8c;font-size:1em;text-align: center;width: 10em;">二手房<br><span style="color:#262626;font-size:1.5em">${houseNum}</span>套</div>`}
               alignX="middle"
               alignY="middle"
             />

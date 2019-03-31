@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Spin, Tabs, Statistic, Icon } from "antd";
+import { Row, Col, Card, Spin, Tabs, Statistic, Icon, BackTop } from "antd";
 import { connect } from "dva";
 import styles from "./HomePage.less";
 import Donut from "../../utils/Donut";
@@ -130,6 +130,7 @@ class HomePage extends Component {
     return (
       <div className={styles.root}>
         <h5>广州房源信息</h5>
+        <BackTop />
         <Spin spinning={this.state.loading}>
           <Row gutter={24}>
             <Col {...topColResponsiveProps}>
