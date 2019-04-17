@@ -2,12 +2,12 @@
  * @Author: liu.yang
  * @Date: 2018-05-17 09:42:35
  */
-import React, { Component } from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import React, { Component } from "react";
+import { Layout, Breadcrumb } from "antd";
 
-import TopHeader from '../header/TopHeader';
-import BaseMenu from '../menu/BaseMenu';
-import styles from './BaseLayout.less';
+import TopHeader from "../header/TopHeader";
+import BaseMenu from "../menu/BaseMenu";
+import styles from "./BaseLayout.less";
 
 const { Content } = Layout;
 
@@ -29,10 +29,9 @@ class BaseLayout extends Component {
         <Layout>
           <TopHeader collapsed={collapsed} onCollapse={this.onCollapse} />
           <Content className={styles.content}>
-            <Breadcrumb style={{ margin: '0 16px 16px 0' }}>
+            <Breadcrumb style={{ margin: "0 16px 16px 0" }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
+              <Breadcrumb.Item>Page</Breadcrumb.Item>
             </Breadcrumb>
             {children}
           </Content>

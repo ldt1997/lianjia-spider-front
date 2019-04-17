@@ -68,7 +68,7 @@ class CurvedLineChart extends React.Component {
             }}
           /> */}
           <Geom
-            type="line"
+            type="point"
             position="item*temperature"
             size={2}
             color={"city"}

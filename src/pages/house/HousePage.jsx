@@ -351,7 +351,7 @@ class HousePage extends Component {
                 </Col>
                 <Col xl={8} lg={8} md={8} sm={24} xs={24}>
                   <ul className={styles.rankingList}>
-                    <strong>最贵小区排名</strong>
+                    <strong>最贵房源排名</strong>
                     {rankData &&
                       rankData[0] &&
                       rankData.slice(0, 8).map((item1, i) => (
